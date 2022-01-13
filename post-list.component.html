@@ -1,0 +1,54 @@
+<div class="user" style="text-align: center;">
+    <span *ngIf="userIsAuthenticated">
+        <button style="background-color: coral;" mat-raised-button>{{"Welcome - "+user}}</button>
+    </span>
+</div>
+<mat-accordion multi="true" *ngIf="posts.length>0">
+    <mat-expansion-panel class="card" *ngFor="let post of posts">
+        <mat-expansion-panel-header>
+            <button mat-button color="warn">Question</button>
+            <button mat-button color="primary">{{post.title}}</button>
+            <div style="margin-left: auto;">
+                <button mat-button style="color: green;" color="warn">Asked by</button>
+                <button mat-button color="primary">{{post['creater']}}</button>
+            </div>
+        </mat-expansion-panel-header>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row">Answer</th>
+                    <td class="row">{{post.content}}</td>
+                    <td>{{post['creater']}}</td>
+                    <td><button mat-raised-button disabled color="warn">EDIT</button></td>
+                    <td><button mat-raised-button color="warn" disabled>DELETE</button></td>
+                </tr>
+                <tr *ngFor="let newContent of post.newContents">
+                    <th scope="row">Answer</th>
+                    <td class="row" [style.visibility]="newContentId==newContent['_id'] ? 'hidden' : 'visible' ">
+                        <input [value]="editContent['__ngContext__'][0]" class="textarea"
+                            [placeholder]="newContent['newContent']"
+                            [style.visibility]="newContentId!=newContent['_id'] ? 'hidden' : 'visible' "
+                            (keyup.enter)="keyUp(editContent.value,editContent)" name="editContent" ngModel
+                            #editContent="ngModel">
+                        <span class="newContent">{{newContent['newContent']}}</span>
+                    </td>
+
+                    <td>{{newContent['creater']}}</td>
+                    <td><button mat-raised-button [disabled]="user!=newContent['creater']"
+                            (click)="onEditAnswer(post.id,newContent['_id'])" color="warn">EDIT</button></td>
+                    <td><button mat-raised-button (click)="onDeleteAnswer(post.id,newContent['_id'])"
+                            [disabled]="user!=newContent['creater']" color="warn">DELETE</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <mat-action-row *ngIf="!userIsAuthenticated">
+            <button mat-button routerLink="/login" color="primary">ANSWER</button>
+        </mat-action-row>
+        <mat-action-row *ngIf="userIsAuthenticated">
+            <button mat-raised-button color="primary" (click)="ngAnswer(post.id)">ANSWER</button>
+            <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordion>
+<p class="info-text mat-body-1" *ngIf="posts.length<=0">No posts add yet!</p>

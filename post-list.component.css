@@ -1,0 +1,32 @@
+:host{
+    display: block;
+    margin-top: lrem;
+    margin-bottom: 500px;
+}
+.info-text{
+    text-align: center;
+}
+.card{
+    margin-top: 10px;
+}
+div>span>button{
+    margin-top: 10px;
+    font-size: 18px;  
+    padding: 10px;
+    width: 40%;
+}
+div>span>p:hover{
+    cursor: pointer;
+    
+}
+.textarea{
+    margin-top: 2px;
+}
+.row{
+    position: relative;
+}
+.newContent{
+    position: absolute;
+    left: 17px;
+    top: 12px;
+}
